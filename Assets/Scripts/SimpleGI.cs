@@ -7,9 +7,14 @@ public class SimpleGI : MonoBehaviour {
     public Gradient dayNightLightColor; //Like a stonger-than-ambient ambient light
     //How long  a day is (seconds)
     public float duration = 120;
-    public float dayTimeOffset; //Not used
+    public float dayTimeOffset;
+    public GameObject sunFlare; //Sun flare
+    public GameObject sunCube; //Sun cube
     public string PercentOfDay;
     private float time;
+    //Sun lamp to rotate
+    public Light mainLight;
+    public Camera skyCam; //Camera with the skybox
     /* Not used yet
     public float maxIntensity = 3f;
     public float minIntensity = 0f;
@@ -18,9 +23,6 @@ public class SimpleGI : MonoBehaviour {
     public float maxAmbientIntensity = 1f;
     public float minAmbientIntensity = 0f;
     public float minAmbientPoint = -0.2f; */
-    //Sun lamp to rotate
-    public Light mainLight;
-    public Camera skyCam; //Camera with the skybox
 
     public Material a, b, c, d, e, f, NormalDay; //Midday-Dawn, Midday-Dusk, Evening, Midnight, Sunset, Daybreak
 
@@ -62,17 +64,26 @@ public class SimpleGI : MonoBehaviour {
             //Rotate the lamp 2 degrees per second, over the course of 120 seconds
             //And increase/decrease speed based on the total duration of a day
             mainLight.transform.Rotate(Time.deltaTime * 2 * 120 / duration, 0, 0);
+            sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.05f * 120 / duration, 21);
+            sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.05f * 120 / duration, 21.25f);
         }
         else if (t > 66) //Rotate backwards at night
         {
             mainLight.transform.Rotate(-Time.deltaTime * 3.9f * 120 / duration, 0, 0);
+            sunFlare.transform.position = new Vector3(0, -2, 21f);
+            sunCube.transform.position = new Vector3(0, -2, 21.25f);
         }
         mainLight.color = dayNightLightColor.Evaluate((time % duration) / duration);
 
         //Slowly rotate skybox camera
         skyCam.transform.Rotate(0, Time.deltaTime * 0.4f, 0);
+        if(skyCam.transform.rotation.y == 360)
+            skyCam.transform.Rotate(0, 0, 0);
         //Ambient light
         RenderSettings.skybox = skyCam.GetComponent<Skybox>().material;
+
+        //Change sun color
+        sunFlare.GetComponent<LensFlare>().color = dayNightLightColor.Evaluate((time % duration) / duration);
     }
 
     /// <summary>
