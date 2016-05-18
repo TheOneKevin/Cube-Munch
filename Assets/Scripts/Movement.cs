@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour {
     public float maxSpeed = 5.0f;
     public AudioClip moveSound;
     public float oioioioi;
-    public float volumeConst = 0.8f;
+    public float volumeConst = 0.6f;
     private Vector3 input;
     private AudioSource source;
 	// Use this for initialization

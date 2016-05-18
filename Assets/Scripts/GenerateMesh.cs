@@ -57,7 +57,7 @@ public class GenerateMesh : MonoBehaviour {
 
     private void setDictionaryValues()
     {
-        dictionary.Add(1, new Vector3(-5, 0, 5)); dictionary.Add(1, new Vector3(5, 0, -3)); //"U" Shape
+        dictionary.Add(1, new Vector3(-5, 0, 5)); dictionary.Add(1, new Vector3(5, 0, 3)); //"U" Shape
         dictionary.Add(2, new Vector3(-3, 0, 3)); dictionary.Add(2, new Vector3(3, 0, -3)); //Cube Shape
         dictionary.Add(3, new Vector3(-5, 0, 5)); dictionary.Add(3, new Vector3(3, 0, -3)); //"L" Shape
         dictionary.Add(4, new Vector3(-5, 0, 5)); dictionary.Add(4, new Vector3(5, 0, -3)); //"S" Shape

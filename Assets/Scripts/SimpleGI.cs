@@ -64,14 +64,14 @@ public class SimpleGI : MonoBehaviour {
             //Rotate the lamp 2 degrees per second, over the course of 120 seconds
             //And increase/decrease speed based on the total duration of a day
             mainLight.transform.Rotate(Time.deltaTime * 2 * 120 / duration, 0, 0);
-            sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.05f * 120 / duration, 21);
-            sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.05f * 120 / duration, 21.25f);
+            sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.1f * 120 / duration, 21);
+            sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.1f * 120 / duration, 21.25f);
         }
         else if (t > 66) //Rotate backwards at night
         {
             mainLight.transform.Rotate(-Time.deltaTime * 3.9f * 120 / duration, 0, 0);
-            sunFlare.transform.position = new Vector3(0, -2, 21f);
-            sunCube.transform.position = new Vector3(0, -2, 21.25f);
+            sunFlare.transform.position = new Vector3(0, -3, 21f);
+            sunCube.transform.position = new Vector3(0, -3, 21.25f);
         }
         mainLight.color = dayNightLightColor.Evaluate((time % duration) / duration);
 
