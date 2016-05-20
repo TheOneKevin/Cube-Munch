@@ -6,28 +6,37 @@ using System.Linq;
 
 public class GenerateMesh : MonoBehaviour {
 
-    //public Transform a, b, c, d, e; //Prefabs 1, 2, 3, 4 and 5
+    #region Variables
+
+    public GameObject a, b, c, d, e; //Prefabs 1, 2, 3, 4 and 5
     public GameObject startingObject; //Hard-coded first object on the scene
     public Vector3[] verticies;
-    Dictionary<int, Vector3> dictionary = new Dictionary<int, Vector3>();
-    Dictionary<int, Vector3> excl = new Dictionary<int, Vector3>();
+    public Vector3 offset;
+    Dictionary<int, Vector3> dMesh = new Dictionary<int, Vector3>();
+    Dictionary<int, Vector3[]> excl = new Dictionary<int, Vector3[]>();
+    Dictionary<int, Vector3[]> zeroTolerance = new Dictionary<int, Vector3[]>();
+    private int lastShape;
+    private Vector3 posLastShape;
+
+    #endregion
+
+    #region Unity Stuff
 
     // Use this for initialization
     void Start ()
     {
+        setDictionaryValues();
         verticies = GetVerticesInChildren(startingObject);
-        /*int repeats = UnityEngine.Random.Range(8, 15); //Set a random # of repeats
-        var list = new List<Vector3>(); //Set a null list
-        verticies = startingObject.GetComponent<MeshFilter>().mesh.vertices; //Set variable
-        Transform instantiatedObject = startingObject; //Set the first object added as the first object on the scene
-        while (repeats >= 0)
+        offset = startingObject.GetComponent<MeshRenderer>().bounds.center;
+        lastShape = 1;
+        //addShape();
+        System.Random r = new System.Random();
+        int recursions = r.Next(2, 10);
+        while(recursions >= 0)
         {
-            //Combine the two arrays together
-            list.AddRange(verticies);
-            list.AddRange(instantiatedObject.GetComponent<MeshFilter>().mesh.vertices);
-            verticies = list.ToArray(); //Convert it to an array
-            repeats--; //Decrease counter and repeat process
-        }*/
+            addShape();
+            recursions--;
+        }
     }
 	
 	// Update is called once per frame
@@ -35,6 +44,10 @@ public class GenerateMesh : MonoBehaviour {
     {
 
 	}
+
+    #endregion
+
+    #region Trivial Functions
 
     Vector3[] GetVerticesInChildren(GameObject go)
     {
@@ -57,13 +70,22 @@ public class GenerateMesh : MonoBehaviour {
 
     private void setDictionaryValues()
     {
-        dictionary.Add(1, new Vector3(-5, 0, 5)); dictionary.Add(1, new Vector3(5, 0, 3)); //"U" Shape
-        dictionary.Add(2, new Vector3(-3, 0, 3)); dictionary.Add(2, new Vector3(3, 0, -3)); //Cube Shape
-        dictionary.Add(3, new Vector3(-5, 0, 5)); dictionary.Add(3, new Vector3(3, 0, -3)); //"L" Shape
-        dictionary.Add(4, new Vector3(-5, 0, 5)); dictionary.Add(4, new Vector3(5, 0, -3)); //"S" Shape
-        dictionary.Add(5, new Vector3(-5, 0, 5)); dictionary.Add(5, new Vector3(3, 0, -5)); //"-|" shape
-
-        excl.Add(1, new Vector3());
+        dMesh.Add(1, new Vector3(-5, 0, 5)); dMesh.Add(6, new Vector3(5, 0, 3)); //"U" Shape
+        dMesh.Add(2, new Vector3(-3, 0, 3)); dMesh.Add(7, new Vector3(3, 0, -3)); //Cube Shape
+        dMesh.Add(3, new Vector3(-5, 0, 5)); dMesh.Add(8, new Vector3(3, 0, -3)); //"L" Shape
+        dMesh.Add(4, new Vector3(-5, 0, 5)); dMesh.Add(9, new Vector3(5, 0, -3)); //"S" Shape
+        dMesh.Add(5, new Vector3(-5, 0, 5)); dMesh.Add(10, new Vector3(3, 0, -5)); //"-|" shape
+        
+        excl.Add(1, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        excl.Add(2, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        excl.Add(3, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        excl.Add(4, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        excl.Add(5, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        
+        zeroTolerance.Add(1, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        zeroTolerance.Add(2, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        zeroTolerance.Add(3, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
+        zeroTolerance.Add(4, new Vector3[] { new Vector3(), new Vector3(), new Vector3(), new Vector3() });
     }
 
     private Vector3 rotateXZ(Vector3 rotPoint, int deg)
@@ -82,4 +104,26 @@ public class GenerateMesh : MonoBehaviour {
                 return rotPoint;
         }
     }
+
+    #endregion
+
+    #region Mesh Generation Function
+
+    private void addShape()
+    {
+        System.Random r = new System.Random();
+        int key = r.Next(1, 10) - 5; //Pick random shape minus 5
+        GameObject[] shapes = new GameObject[]{a, b, c, d, e};
+        //Get random value from hashmap.
+        key = (key < 0) ? key + 5 : key; //See if key is negative. If so, add 5 to the value
+        Vector3 posCurrentShape = new Vector3(shapes[lastShape].GetComponent<MeshRenderer>().bounds.size.x,
+            1, shapes[key].GetComponent<MeshRenderer>().bounds.size.z);
+        offset = shapes[key].GetComponent<MeshRenderer>().bounds.center;
+        //posCurrentShape = new Vector3(UnityEngine.Random.Range(posCurrentShape.x, posCurrentShape.x), 0, UnityEngine.Random.Range(posCurrentShape.z, posCurrentShape.z));
+        GameObject.Instantiate(shapes[key], posCurrentShape, Quaternion.Euler(270,0,0));
+        lastShape = key;
+    }
+
+    #endregion
+
 }

@@ -19,8 +19,6 @@ public class Movement : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if(transform.position.y < 0)
-            transform.position = new Vector3(0, 1, -16);
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         if(GetComponent<Rigidbody>().velocity.magnitude < maxSpeed)
             GetComponent<Rigidbody>().AddForce(input * acceleration);

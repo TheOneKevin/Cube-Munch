@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityStandardAssets.ImageEffects;
 
 public class SimpleGI : MonoBehaviour {
     //The change in sunlight color throughout the day
@@ -11,23 +12,17 @@ public class SimpleGI : MonoBehaviour {
     public GameObject sunFlare; //Sun flare
     public GameObject sunCube; //Sun cube
     public string PercentOfDay;
-    private float time;
     //Sun lamp to rotate
     public Light mainLight;
     public Camera skyCam; //Camera with the skybox
-    /* Not used yet
-    public float maxIntensity = 3f;
-    public float minIntensity = 0f;
-    public float minPoint = -0.2f;
-
-    public float maxAmbientIntensity = 1f;
-    public float minAmbientIntensity = 0f;
-    public float minAmbientPoint = -0.2f; */
 
     public Material a, b, c, d, e, f, NormalDay; //Midday-Dawn, Midday-Dusk, Evening, Midnight, Sunset, Daybreak
 
-	// Use this for initialization
-	void Start ()
+    private float time;
+    private float rot = 0;
+
+    // Use this for initialization
+    void Start ()
     {
         RenderSettings.ambientIntensity = 0.6f; //Set lights
         mainLight.intensity = 0.6f;
@@ -47,7 +42,7 @@ public class SimpleGI : MonoBehaviour {
             setSkyBox(f, 4, 4, true);
         else if (8 < t && t <= 23)
             setSkyBox(a, 15, 8, true);
-        else if(23 < t && t <= 43)
+        else if (23 < t && t <= 43)
             skyCam.GetComponent<Skybox>().material = NormalDay;
         else if (43 < t && t <= 58)
             setSkyBox(b, 15, 43);
@@ -58,9 +53,20 @@ public class SimpleGI : MonoBehaviour {
         else if (66 < t && t <= 100)
             skyCam.GetComponent<Skybox>().material = c;
 
+        //Rotate skybox
+        rot += Time.deltaTime * 0.4f;
+        a.SetFloat("_Rotation", rot); b.SetFloat("_Rotation", rot);
+        c.SetFloat("_Rotation", rot); d.SetFloat("_Rotation", rot);
+        e.SetFloat("_Rotation", rot); f.SetFloat("_Rotation", rot);
+        NormalDay.SetFloat("_Rotation", rot);
+        if (rot >= 360)
+            rot = 0;
+
         //Set the lamp and rotate accordingly
         if (t <= 66)
         {
+            if (skyCam.GetComponent<SunShafts>() != null)
+                skyCam.GetComponent<SunShafts>().enabled = true;
             //Rotate the lamp 2 degrees per second, over the course of 120 seconds
             //And increase/decrease speed based on the total duration of a day
             mainLight.transform.Rotate(Time.deltaTime * 2 * 120 / duration, 0, 0);
@@ -72,17 +78,12 @@ public class SimpleGI : MonoBehaviour {
             mainLight.transform.Rotate(-Time.deltaTime * 3.9f * 120 / duration, 0, 0);
             sunFlare.transform.position = new Vector3(0, -3, 21f);
             sunCube.transform.position = new Vector3(0, -3, 21.25f);
+            if (skyCam.GetComponent<SunShafts>() != null)
+                skyCam.GetComponent<SunShafts>().enabled = false;
         }
-        mainLight.color = dayNightLightColor.Evaluate((time % duration) / duration);
-
-        //Slowly rotate skybox camera
-        skyCam.transform.Rotate(0, Time.deltaTime * 0.4f, 0);
-        if(skyCam.transform.rotation.y == 360)
-            skyCam.transform.Rotate(0, 0, 0);
-        //Ambient light
+        mainLight.color = dayNightLightColor.Evaluate((time % duration) / duration); //Lamp color
+        //Ambient light + Sun flare
         RenderSettings.skybox = skyCam.GetComponent<Skybox>().material;
-
-        //Change sun color
         sunFlare.GetComponent<LensFlare>().color = dayNightLightColor.Evaluate((time % duration) / duration);
     }
 
@@ -101,12 +102,12 @@ public class SimpleGI : MonoBehaviour {
         if (isBackward)
         {
             skyCam.GetComponent<Skybox>().material = sky;
-            skyCam.GetComponent<Skybox>().material.SetFloat("_Blend", Mathf.Clamp(1 - 1 * (pt - indiff) / diff, 0f, 1f));
+            skyCam.GetComponent<Skybox>().material.SetFloat("_SkyBlend", Mathf.Clamp(1 - 1 * (pt - indiff) / diff, 0f, 1f));
         }
         else
         {
             skyCam.GetComponent<Skybox>().material = sky;
-            skyCam.GetComponent<Skybox>().material.SetFloat("_Blend", Mathf.Clamp(1 * (pt - indiff) / diff, 0f, 1f));
+            skyCam.GetComponent<Skybox>().material.SetFloat("_SkyBlend", Mathf.Clamp(1 * (pt - indiff) / diff, 0f, 1f));
         }
     }
 }

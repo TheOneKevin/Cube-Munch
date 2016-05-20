@@ -26,7 +26,7 @@ public class EnemyCube : MonoBehaviour {
 
     void OnTriggerEnter(Collider player)
     {
-        //When player hits, send them back to spawn
+        //When anything hits, send them back to spawn
         player.gameObject.transform.position = new Vector3(0, 1, -16);
     }
 }
