@@ -21,6 +21,8 @@ public class SimpleGI : MonoBehaviour {
 
     public Material a, b, c, d, e, f, NormalDay; //Midday-Dawn, Midday-Dusk, Evening, Midnight, Sunset, Daybreak
 
+    public Transform targetRot1; public Transform targetRot2;
+
     private float time;
     private float rot = 0;
 
@@ -76,13 +78,13 @@ public class SimpleGI : MonoBehaviour {
                 skyCam.GetComponent<SunShafts>().enabled = true;
             //Rotate the lamp 2 degrees per second, over the course of 120 seconds
             //And increase/decrease speed based on the total duration of a day
-            mainLight.transform.Rotate(Time.deltaTime * 2 * 120 / duration, 0, 0);
+            mainLight.transform.rotation = Quaternion.RotateTowards(mainLight.transform.rotation, targetRot1.rotation, Time.deltaTime * 2f * 120 / duration);
             sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.2f * 120 / duration, 21);
             sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.2f * 120 / duration, 21.25f);
         }
         else if (t > 66) //Rotate backwards at night
         {
-            mainLight.transform.Rotate(-Time.deltaTime * 3.9f * 120 / duration, 0, 0);
+            mainLight.transform.rotation = Quaternion.RotateTowards(mainLight.transform.rotation, targetRot2.rotation, Time.deltaTime * 3f * 120 / duration);
             sunFlare.transform.position = new Vector3(0, -3, 21f);
             sunCube.transform.position = new Vector3(0, -3, 21.25f);
             if (skyCam.GetComponent<SunShafts>() != null)
