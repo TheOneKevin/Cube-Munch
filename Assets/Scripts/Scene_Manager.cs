@@ -10,6 +10,7 @@ public class Scene_Manager : MonoBehaviour {
     public float camRot;
     public float fadeSpeed = 1.5f;
     public Canvas canvas;
+    public Image logo;
     public GUITexture screenOverlay;
     private bool flag;
     private bool goAhead;
@@ -18,6 +19,7 @@ public class Scene_Manager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        screenOverlay.enabled = true;
         flag = false;
         goAhead = false;
         screenOverlay.pixelInset = new Rect(0f, 0f, Screen.width, Screen.height);
@@ -34,8 +36,13 @@ public class Scene_Manager : MonoBehaviour {
             float lerp = -Time.deltaTime * 10;
             cam.transform.Rotate(lerp, 0, 0);
         }
-        if(cam.transform.rotation.x < -0.63f)
+        if (cam.transform.rotation.x < -0.40f)
         {
+            logo.color = new Color(logo.color.r, logo.color.b, logo.color.g, 100);
+        }
+        if (cam.transform.rotation.x < -0.63f)
+        {
+            logo.color = new Color(logo.color.r, logo.color.b, logo.color.g, 0);
             flag = false;
             goAhead = true;
         }

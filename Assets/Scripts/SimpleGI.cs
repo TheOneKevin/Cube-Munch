@@ -4,6 +4,9 @@ using System;
 using UnityStandardAssets.ImageEffects;
 
 public class SimpleGI : MonoBehaviour {
+
+    #region Variables
+
     //The change in sunlight color throughout the day
     public Gradient dayNightLightColor; //Like a stonger-than-ambient ambient light
     //How long  a day is (seconds)
@@ -20,6 +23,10 @@ public class SimpleGI : MonoBehaviour {
 
     private float time;
     private float rot = 0;
+
+    #endregion
+
+    #region Unity Defaults
 
     // Use this for initialization
     void Start ()
@@ -70,8 +77,8 @@ public class SimpleGI : MonoBehaviour {
             //Rotate the lamp 2 degrees per second, over the course of 120 seconds
             //And increase/decrease speed based on the total duration of a day
             mainLight.transform.Rotate(Time.deltaTime * 2 * 120 / duration, 0, 0);
-            sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.1f * 120 / duration, 21);
-            sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.1f * 120 / duration, 21.25f);
+            sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.2f * 120 / duration, 21);
+            sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.2f * 120 / duration, 21.25f);
         }
         else if (t > 66) //Rotate backwards at night
         {
@@ -86,6 +93,10 @@ public class SimpleGI : MonoBehaviour {
         RenderSettings.skybox = skyCam.GetComponent<Skybox>().material;
         sunFlare.GetComponent<LensFlare>().color = dayNightLightColor.Evaluate((time % duration) / duration);
     }
+
+    #endregion
+
+    #region Functions
 
     /// <summary>
     /// Sets the skybox to a material
@@ -110,4 +121,7 @@ public class SimpleGI : MonoBehaviour {
             skyCam.GetComponent<Skybox>().material.SetFloat("_SkyBlend", Mathf.Clamp(1 * (pt - indiff) / diff, 0f, 1f));
         }
     }
+
+    #endregion
+
 }
