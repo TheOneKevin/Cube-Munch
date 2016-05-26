@@ -79,8 +79,8 @@ public class SimpleGI : MonoBehaviour {
             //Rotate the lamp 2 degrees per second, over the course of 120 seconds
             //And increase/decrease speed based on the total duration of a day
             mainLight.transform.rotation = Quaternion.RotateTowards(mainLight.transform.rotation, targetRot1.rotation, Time.deltaTime * 2f * 120 / duration);
-            sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.2f * 120 / duration, 21);
-            sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.2f * 120 / duration, 21.25f);
+            sunFlare.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.1f * 120 / duration, 21);
+            sunCube.transform.position = new Vector3(0, sunFlare.transform.position.y + 0.1f * 120 / duration, 21.25f);
         }
         else if (t > 66) //Rotate backwards at night
         {
