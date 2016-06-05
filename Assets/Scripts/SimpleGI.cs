@@ -23,6 +23,8 @@ public class SimpleGI : MonoBehaviour {
 
     public Transform targetRot1; public Transform targetRot2;
 
+    //public bool isDay; //AI stuff. Use latter
+
     private float time;
     private float rot = 0;
 

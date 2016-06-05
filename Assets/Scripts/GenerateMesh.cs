@@ -135,6 +135,8 @@ public class GenerateMesh : MonoBehaviour
         //Store the "cached" stuff now :)
         lastPos = getNextPos(lastPos, direction);
         lastShape = shape;
+        cachedVerts = GetVerticesInChildren(tmp);
+
     }
 
     private Vector3[] addArrays(Vector3[] array1, Vector3[] array2)
