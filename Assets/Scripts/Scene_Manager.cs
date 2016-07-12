@@ -11,6 +11,7 @@ public class Scene_Manager : MonoBehaviour {
     public float fadeSpeed = 1.5f;
     public Canvas canvas;
     public Image logo;
+    public Text text_under_logo;
     public GUITexture screenOverlay;
     private bool flag;
     private bool goAhead;
@@ -39,10 +40,12 @@ public class Scene_Manager : MonoBehaviour {
         if (cam.transform.rotation.x < -0.40f)
         {
             logo.color = new Color(logo.color.r, logo.color.b, logo.color.g, 100);
+            text_under_logo.color = new Color(text_under_logo.color.r, text_under_logo.color.b, text_under_logo.color.g, 100);
         }
         if (cam.transform.rotation.x < -0.63f)
         {
             logo.color = new Color(logo.color.r, logo.color.b, logo.color.g, 0);
+            text_under_logo.color = new Color(text_under_logo.color.r, text_under_logo.color.b, text_under_logo.color.g, 0);
             flag = false;
             goAhead = true;
         }
@@ -97,7 +100,8 @@ public class Scene_Manager : MonoBehaviour {
         {
 
         }
-        #endregion
+
+    #endregion
     
     }
 }

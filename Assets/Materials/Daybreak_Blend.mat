@@ -321,7 +321,7 @@ Material:
       data:
         first:
           name: _Rotation
-        second: 23.813963
+        second: 4.6425924
       data:
         first:
           name: _Blend
@@ -329,7 +329,7 @@ Material:
       data:
         first:
           name: _SkyBlend
-        second: 0.0014735386
+        second: 0.00947658
     m_Colors:
       data:
         first:
