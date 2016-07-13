@@ -26,6 +26,7 @@ public class SimpleGI : MonoBehaviour {
     //public bool isDay; //AI stuff. Use latter
 
     private float time;
+    private float startTime; //<- Added for bug fix
     private float rot = 0;
 
     #endregion
@@ -38,14 +39,15 @@ public class SimpleGI : MonoBehaviour {
         RenderSettings.ambientIntensity = 0.6f; //Set lights
         mainLight.intensity = 0.6f;
         mainLight.transform.Rotate(2 * 120 / duration + dayTimeOffset, 0, 0);
+        startTime = Time.time; //<-Gets the time in seconds since the START of the GAME (bug fixed)
     }
 
     // Update is called once per frame
     void Update()
     {
-        time = Time.time + dayTimeOffset; //Set variable
-        float t = (time % duration) / duration * 100; //Get percentage of day is complete
-        PercentOfDay = t + "%"; //Debuggin purposes
+        time = (Time.time - startTime) + dayTimeOffset; //Gets the time in seconds since scene start + offset
+        float t = (time % duration) / duration * 100; //Get percentage of day that is complete
+        PercentOfDay = t + "%"; //Debugging purposes
         //Check the time (out of 2 mins) and set skybox accordingly
         if (t <= 4) //1 hour out of 42 hours
             setSkyBox(c, 4, 0, true);
