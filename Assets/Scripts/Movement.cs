@@ -26,6 +26,11 @@ public class Movement : MonoBehaviour {
             source.PlayOneShot(moveSound, volumeConst * GetComponent<Rigidbody>().velocity.magnitude / 8f);
         else if (GetComponent<Rigidbody>().velocity.magnitude <= 0.6 && source.isPlaying)
             source.Stop();
+        if (Input.GetButtonDown("Sneak"))
+        {
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            GetComponent<Rigidbody>().AddForce(new Vector3(0, -10, 0), ForceMode.VelocityChange);
+        }
         oioioioi = GetComponent<Rigidbody>().velocity.magnitude;
     }
 }

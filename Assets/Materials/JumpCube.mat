@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Floor
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: JumpCube
+  m_Shader: {fileID: 4800000, guid: fbf5b26a4f8f7cf48b21f10f1e2b2dd9, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -22,9 +22,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _Control
+        name: _Cube
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8900000, guid: c76648db34f8b6442b8eb89f44853f2e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _GlossMap
+        name: _Fresnel
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -70,30 +70,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _Normal0
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Normal1
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Normal2
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Normal3
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
         name: _OcclusionMap
       second:
         m_Texture: {fileID: 0}
@@ -106,30 +82,27 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _Splat0
+        name: _ReflectionTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _Splat1
+        name: _ReflectiveColor
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _Splat2
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Splat3
+        name: _RefractionTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - first:
+        name: _BumpAmt
+      second: 10
     - first:
         name: _BumpScale
       second: 1
@@ -143,31 +116,22 @@ Material:
         name: _DstBlend
       second: 0
     - first:
-        name: _EdgeLength
-      second: 10
+        name: _FresnelScale
+      second: 0.75
+    - first:
+        name: _GerstnerIntensity
+      second: 1
     - first:
         name: _GlossMapScale
       second: 1
     - first:
         name: _Glossiness
-      second: 0
+      second: 0.5
     - first:
         name: _GlossyReflections
       second: 1
     - first:
         name: _Metallic
-      second: 0
-    - first:
-        name: _Metallic0
-      second: 0
-    - first:
-        name: _Metallic1
-      second: 0
-    - first:
-        name: _Metallic2
-      second: 0
-    - first:
-        name: _Metallic3
       second: 0
     - first:
         name: _Mode
@@ -179,28 +143,19 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _ReflDistort
+      second: 0.44
+    - first:
+        name: _RefrDistort
+      second: 0.4
+    - first:
         name: _Shininess
-      second: 0.078125
-    - first:
-        name: _Smoothness0
-      second: 1
-    - first:
-        name: _Smoothness1
-      second: 1
-    - first:
-        name: _Smoothness2
-      second: 1
-    - first:
-        name: _Smoothness3
-      second: 1
+      second: 200
     - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
         name: _SpecularHighlights
-      second: 1
-    - first:
-        name: _SquashAmount
       second: 1
     - first:
         name: _SrcBlend
@@ -209,21 +164,78 @@ Material:
         name: _UVSec
       second: 0
     - first:
+        name: _WaveScale
+      second: 0.063
+    - first:
         name: _ZWrite
       second: 1
     m_Colors:
     - first:
+        name: WaveSpeed
+      second: {r: 19, g: 9, b: -16, a: -7}
+    - first:
+        name: _AnimationDirection
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _AnimationTiling
+      second: {r: 2.2, g: 2.2, b: -1.1, a: -1.1}
+    - first:
+        name: _BaseColor
+      second: {r: 0.54, g: 0.95, b: 0.99, a: 0.5}
+    - first:
+        name: _BumpDirection
+      second: {r: 1, g: 1, b: -1, a: 1}
+    - first:
+        name: _BumpTiling
+      second: {r: 1, g: 1, b: -2, a: 3}
+    - first:
         name: _Color
-      second: {r: 0.2949827, g: 0.9117647, b: 0.52893436, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _DistortParams
+      second: {r: 1, g: 1, b: 2, a: 1.15}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
+        name: _GAmplitude
+      second: {r: 0.3, g: 0.35, b: 0.25, a: 0.25}
+    - first:
+        name: _GDirectionAB
+      second: {r: 0.3, g: 0.85, b: 0.85, a: 0.25}
+    - first:
+        name: _GDirectionCD
+      second: {r: 0.1, g: 0.9, b: 0.5, a: 0.5}
+    - first:
+        name: _GFrequency
+      second: {r: 1.3, g: 1.35, b: 1.25, a: 1.25}
+    - first:
+        name: _GSpeed
+      second: {r: 1.2, g: 1.375, b: 1.1, a: 1.5}
+    - first:
+        name: _GSteepness
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _HorizonColor
+      second: {r: 0.172, g: 0.463, b: 0.435, a: 1}
+    - first:
+        name: _InvFadeParemeter
+      second: {r: 0.15, g: 0.15, b: 0.5, a: 1}
+    - first:
+        name: _ReflectColor
+      second: {r: 1, g: 1, b: 1, a: 0.5}
+    - first:
+        name: _ReflectionColor
+      second: {r: 0.54, g: 0.95, b: 0.99, a: 0.5}
+    - first:
+        name: _RefrColor
+      second: {r: 0.34, g: 0.85, b: 0.92, a: 1}
+    - first:
         name: _SpecColor
       second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - first:
-        name: _TreeInstanceColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+        name: _SpecularColor
+      second: {r: 0.72, g: 0.72, b: 0.72, a: 1}
     - first:
-        name: _TreeInstanceScale
-      second: {r: 1, g: 1, b: 1, a: 1}
+        name: _WorldLightDir
+      second: {r: 0, g: 0.1, b: -0.5, a: 0}
